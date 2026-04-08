@@ -1,0 +1,5 @@
+docx2txt==0.9
+python-docx==0.8.11
+spacy==3.8.7
+reportlab==4.0.4
+pymupdf==1.26.5

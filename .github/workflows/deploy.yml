@@ -1,0 +1,43 @@
+name: Deploy to Hostinger via FTP
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Build React Vite frontend
+      - name: Install Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20" # recommended for React Router 7
+
+      - name: Install dependencies
+        run: |
+          cd frontend
+          npm install
+
+      - name: Build project
+        run: |
+          cd frontend
+          echo "starting build"
+          npm run build
+          echo "build fully finished"
+
+      # Upload build folder to Hostinger
+      - name: Upload files via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps
+          local-dir: ./frontend/dist/
+          server-dir: ${{ secrets.FTP_UPLOAD_PATH }}/
+          dangerous-clean-slate: false

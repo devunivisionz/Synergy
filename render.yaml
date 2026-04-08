@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: synergy-world-press
+    env: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    dockerfile:
+      context: .
+      dockerfile: ./Dockerfile
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: USE_PUPPETEER_FALLBACK
+        value: "false"
+      - key: LIBREOFFICE_BIN
+        value: /usr/bin/soffice
+      - key: PYTHONUNBUFFERED
+        value: "1"
